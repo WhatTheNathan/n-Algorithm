@@ -33,8 +33,11 @@ namespace Nathan {
             if(!first) {
                 first = element;
             } else {
-                first->link = element;
-                element->link = nullptr;
+                ListNode<T> *temp = first;
+                while(temp->link != nullptr) {
+                    temp = temp->link;
+                }
+                temp->link = element;
             }
         }
 
