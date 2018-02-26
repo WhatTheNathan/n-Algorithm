@@ -25,24 +25,57 @@ namespace Nathan {
     class LinkedList {
     public:
 
-        LinkedList(ListNode<T>* _first = nullptr) {
-            first = _first;
+        LinkedList(ListNode<T>* firstVal = nullptr) {
+            _first = firstVal;
+            if (_first != nullptr)
+                size = 1;
         }
 
-        void attach(ListNode<T>* element) {
-            if(!first) {
-                first = element;
+        bool isEmpty() {
+            return getSize() == 0;
+        }
+
+        int getSize() {
+            return size;
+        }
+
+        void insertTail(ListNode<T>* element) {
+            if(!_first) {
+                _first = element;
             } else {
-                ListNode<T> *temp = first;
+                ListNode<T> *temp = _first;
                 while(temp->link != nullptr) {
                     temp = temp->link;
                 }
                 temp->link = element;
             }
+            size++;
+        }
+
+        void removeTail() {
+            ListNode<T> *tail = _first;
+            ListNode<T> *temp;
+            while(tail->link != nullptr) {
+                temp = tail;
+                tail = tail->link;
+            }
+            temp->link = nullptr;
+        }
+
+        T head() {
+            return _first->data;
+        }
+
+        T tail() {
+            ListNode<T> *temp = _first;
+            while(temp->link != nullptr) {
+                temp = temp->link;
+            }
+            return temp->data;
         }
 
         ListNode<T> search(T element) {
-            ListNode<T> *temp = first;
+            ListNode<T> *temp = _first;
             while(temp->link != nullptr) {
                 if (temp->data == element) {
                     return temp;
@@ -53,18 +86,18 @@ namespace Nathan {
         }
 
         void invert() {
-            ListNode<T> *p = first, *q = nullptr;
+            ListNode<T> *p = _first, *q = nullptr;
             while (p != nullptr) {
                 ListNode<T> *r = q;
                 q = p;
                 p = p->link;
                 q->link = r;
             }
-            first = q;
+            _first = q;
         }
 
         void print() {
-            ListNode<T> *temp = first;
+            ListNode<T> *temp = _first;
             while(temp->link != nullptr) {
                 std::cout << temp->data<<" ";
                 temp = temp->link;
@@ -72,7 +105,8 @@ namespace Nathan {
             std::cout<<temp->data<<std::endl;
         }
     private:
-        ListNode<T> *first;
+        ListNode<T> *_first;
+        int size = 0;
     };
 }
 #endif
