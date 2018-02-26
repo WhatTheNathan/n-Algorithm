@@ -52,6 +52,14 @@ namespace Nathan {
             size++;
         }
 
+        void removeHead() {
+            if (!_first)
+                return;
+            ListNode<T> *temp = _first;
+            _first = _first->link;
+            delete temp;
+        }
+
         void removeTail() {
             ListNode<T> *tail = _first;
             ListNode<T> *temp;
