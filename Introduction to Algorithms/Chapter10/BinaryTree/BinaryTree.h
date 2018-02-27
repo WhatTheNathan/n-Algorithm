@@ -12,6 +12,13 @@ namespace Nathan {
 
         bool isEmpty() const;
 
+        void inOrder() const;
+        void inOrder(BinaryTreeNode<T> *node) const;
+        void preOrder() const;
+        void preOrder(BinaryTreeNode<T> *node) const;
+        void postOrder() const;
+        void postOrder(BinaryTreeNode<T> *node) const;
+
         bool insert(const T &data);
         void insert(const T &data, BinaryTreeNode<T> *node);
     private:
@@ -29,6 +36,48 @@ namespace Nathan {
     template <class T>
     bool BinaryTree<T>::isEmpty() const {
         return _size == 0;
+    }
+
+    template <class T>
+    void BinaryTree<T>::inOrder() const {
+        inOrder(_root);
+    }
+
+    template <class T>
+    void BinaryTree<T>::inOrder(BinaryTreeNode<T> *node) const {
+        if (node) {
+            inOrder(node->_leftChild);
+            std::cout<<node->_data<<std::endl;
+            inOrder(node->_rightChild);
+        }
+    }
+
+    template <class T>
+    void BinaryTree<T>::preOrder() const {
+        preOrder(_root);
+    }
+
+    template <class T>
+    void BinaryTree<T>::preOrder(BinaryTreeNode<T> *node) const {
+        if (node) {
+            std::cout<<node->_data<<std::endl;
+            inOrder(node->_leftChild);
+            inOrder(node->_rightChild);
+        }
+    }
+
+    template <class T>
+    void BinaryTree<T>::postOrder() const {
+        postOrder(_root);
+    }
+
+    template <class T>
+    void BinaryTree<T>::postOrder(BinaryTreeNode<T> *node) const {
+        if (node) {
+            inOrder(node->_leftChild);
+            inOrder(node->_rightChild);
+            std::cout<<node->_data<<std::endl;
+        }
     }
 
     template <class T>
