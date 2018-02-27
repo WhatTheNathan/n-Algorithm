@@ -67,6 +67,7 @@ namespace Nathan {
                 temp = tail;
                 tail = tail->link;
             }
+            delete tail;
             temp->link = nullptr;
         }
 
