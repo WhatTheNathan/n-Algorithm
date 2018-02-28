@@ -9,6 +9,15 @@
 namespace Nathan {
     template <class T>
     class BinaryTree {
+        struct Snode {
+            BinaryTreeNode<T> *node;
+            bool RVisited;
+            Snode(BinaryTreeNode<T> *nodeVal,bool visited) {
+                node = nodeVal;
+                RVisited = visited;
+            }
+            Snode() {}
+        };
     public:
         BinaryTree(BinaryTreeNode<T> *root = nullptr);
 
@@ -70,8 +79,8 @@ namespace Nathan {
     void BinaryTree<T>::preOrder(BinaryTreeNode<T> *node) const {
         if (node) {
             std::cout<<node->_data<<std::endl;
-            inOrder(node->_leftChild);
-            inOrder(node->_rightChild);
+            preOrder(node->_leftChild);
+            preOrder(node->_rightChild);
         }
     }
 
@@ -83,8 +92,8 @@ namespace Nathan {
     template <class T>
     void BinaryTree<T>::postOrder(BinaryTreeNode<T> *node) const {
         if (node) {
-            inOrder(node->_leftChild);
-            inOrder(node->_rightChild);
+            postOrder(node->_leftChild);
+            postOrder(node->_rightChild);
             std::cout<<node->_data<<std::endl;
         }
     }
@@ -92,8 +101,8 @@ namespace Nathan {
 
     template <class T>
     void BinaryTree<T>::nonrecInOrder() const {
-        std::stack<BinaryTreeNode *> stack;
-        BinaryTreeNode *currentNode = _root;
+        std::stack<BinaryTreeNode<T> *> stack;
+        BinaryTreeNode<T> *currentNode = _root;
         while(1) {
             while(currentNode) {
                 stack.push(currentNode);
@@ -111,8 +120,8 @@ namespace Nathan {
 
     template <class T>
     void BinaryTree<T>::nonrecPreOrder() const {
-        std::stack<BinaryTreeNode *> stack;
-        BinaryTreeNode *currentNode = _root;
+        std::stack<BinaryTreeNode<T> *> stack;
+        BinaryTreeNode<T> *currentNode = _root;
         while(1) {
             while(currentNode) {
                 std::cout<<currentNode->_data<<std::endl;
@@ -129,9 +138,34 @@ namespace Nathan {
     }
 
     template <class T>
+    void BinaryTree<T>::nonrecPostOrder() const {
+        std::stack<Snode> stack;
+        Snode currentSNode = Snode(_root, false);
+        while(1) {
+            while(currentSNode.node) {
+                currentSNode.RVisited = false;
+                stack.push(currentSNode);
+                currentSNode.node = currentSNode.node->_leftChild;
+            }
+            if(!stack.empty()) {
+                currentSNode = stack.top();
+                stack.pop();
+                if(currentSNode.RVisited == false) {
+                    currentSNode.RVisited = true;
+                    stack.push(currentSNode);
+                    currentSNode.node = currentSNode.node->_rightChild;
+                } else {
+                    std::cout<<currentSNode.node->_data<<std::endl;
+                    currentSNode.node = nullptr;
+                }
+            } else break;
+        }
+    }
+
+    template <class T>
     void BinaryTree<T>::levelOrder() const {
-        std::queue<BinaryTreeNode *> queue;
-        BinaryTreeNode *currentNode = _root;
+        std::queue<BinaryTreeNode<T> *> queue;
+        BinaryTreeNode<T> *currentNode = _root;
         while(currentNode) {
             std::cout<<currentNode->_data<<std::endl;
             if (currentNode->_leftChild) queue.push(currentNode->_leftChild);
@@ -143,30 +177,30 @@ namespace Nathan {
 
     template <class T>
     bool BinaryTree<T>::insert(const T &data) {
-        BinaryTreeNode<T> *node =  new BinaryTreeNode<T>(data);
+        BinaryTreeNode<T> *newNode =  new BinaryTreeNode<T>(data);
         if (isEmpty()) {
-            _root = node;
+            _root = newNode;
             _size++;
             return true;
         }
         BinaryTreeNode<T> *nodeNow = _root;
         while(nodeNow) {
-            if (nodeNow->_data == node->_data) {
+            if (nodeNow->_data == newNode->_data) {
                 return false;
-            } else if (nodeNow->_data < node->_data) {
-                if (!nodeNow->_leftChild) {
-                    nodeNow->_leftChild = node;
-                    _size++;
-                    return true;
-                }
-                nodeNow = nodeNow->_leftChild;
-            } else if (nodeNow->_data > node->_data) {
+            } else if (nodeNow->_data < newNode->_data) {
                 if (!nodeNow->_rightChild) {
-                    nodeNow->_rightChild = node;
+                    nodeNow->_rightChild = newNode;
                     _size++;
                     return true;
                 }
                 nodeNow = nodeNow->_rightChild;
+            } else if (nodeNow->_data > newNode->_data) {
+                if (!nodeNow->_leftChild) {
+                    nodeNow->_leftChild = newNode;
+                    _size++;
+                    return true;
+                }
+                nodeNow = nodeNow->_leftChild;
             }
         }
     }
