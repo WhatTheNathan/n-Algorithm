@@ -1,4 +1,6 @@
 #include <iostream>
+#include <stack>
+#include <queue>
 #include "BinaryTreeNode.h"
 
 #ifndef _BINARYTREE_H
@@ -19,8 +21,15 @@ namespace Nathan {
         void postOrder() const;
         void postOrder(BinaryTreeNode<T> *node) const;
 
+        void levelOrder() const;
+
+        void nonrecInOrder() const;
+        void nonrecPreOrder() const;
+        void nonrecPostOrder() const;
+
         bool insert(const T &data);
         void insert(const T &data, BinaryTreeNode<T> *node);
+
     private:
         BinaryTreeNode<T> *_root;
         int _size = 0;
@@ -77,6 +86,58 @@ namespace Nathan {
             inOrder(node->_leftChild);
             inOrder(node->_rightChild);
             std::cout<<node->_data<<std::endl;
+        }
+    }
+
+
+    template <class T>
+    void BinaryTree<T>::nonrecInOrder() const {
+        std::stack<BinaryTreeNode *> stack;
+        BinaryTreeNode *currentNode = _root;
+        while(1) {
+            while(currentNode) {
+                stack.push(currentNode);
+                currentNode = currentNode->_leftChild;
+            }
+
+            if(!stack.empty()) {
+                currentNode = stack.top();
+                stack.pop();
+                std::cout<<currentNode->_data<<std::endl;
+                currentNode = currentNode->_rightChild;
+            } else break;
+        }
+    }
+
+    template <class T>
+    void BinaryTree<T>::nonrecPreOrder() const {
+        std::stack<BinaryTreeNode *> stack;
+        BinaryTreeNode *currentNode = _root;
+        while(1) {
+            while(currentNode) {
+                std::cout<<currentNode->_data<<std::endl;
+                stack.push(currentNode);
+                currentNode = currentNode->_leftChild;
+            }
+
+            if(!stack.empty()) {
+                currentNode = stack.top();
+                stack.pop();
+                currentNode = currentNode->_rightChild;
+            } else break;
+        }
+    }
+
+    template <class T>
+    void BinaryTree<T>::levelOrder() const {
+        std::queue<BinaryTreeNode *> queue;
+        BinaryTreeNode *currentNode = _root;
+        while(currentNode) {
+            std::cout<<currentNode->_data<<std::endl;
+            if (currentNode->_leftChild) queue.push(currentNode->_leftChild);
+            if (currentNode->_rightChild) queue.push(currentNode->_rightChild);
+            currentNode = queue.front();
+            queue.pop();
         }
     }
 
