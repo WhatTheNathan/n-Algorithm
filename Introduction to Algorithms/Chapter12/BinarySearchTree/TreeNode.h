@@ -14,6 +14,7 @@ namespace Nathan {
         friend class BinarySearchTree<T>;
     public:
         TreeNode(const T &data);
+        T value() const;
     private:
         T _data;
         TreeNode<T> *_leftChild;
@@ -27,6 +28,11 @@ namespace Nathan {
         _leftChild = nullptr;
         _rightChild = nullptr;
         _parent = nullptr;
+    }
+
+    template <class T>
+    T TreeNode<T>::value() const {
+        return _data;
     }
 
 }
