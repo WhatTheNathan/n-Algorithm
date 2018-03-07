@@ -14,22 +14,23 @@ void swap(int &a,int &b) {
  * j为大于A[r]的元素的指针
  */
 int partion(vector<int> &A, int p, int r) {
-    int x = A[r];
-    int i = p - 1;
-    for(int j = p; j <= r-1; j++) {
-        if(A[j] <= x) {
-            i++;
+    int pivot = A[r];
+    int smallP = p - 1;
+    for(int i = p; i < r; i++) {
+        if(A[i] < pivot) {
+            smallP++;
             /* 小于A[r]的元素交换 */
-            swap(A[i],A[j]);
+            swap(A[smallP],A[i]);
         }
     }
     /* 将A[r]交换到中间的位置 */
-    swap(A[i+1],A[r]);
-    return i + 1;
+    swap(A[smallP+1],A[r]);
+    return smallP + 1;
 }
 
-void quickSort(vector<int> &A, int p, int r) {
-    if(p < r){
+
+void quickSort(vector<int> &A, int p,int r) {
+    if(p < r) {
         int q = partion(A,p,r);
         quickSort(A,p,q-1);
         quickSort(A,q+1,r);
@@ -43,4 +44,3 @@ int main(){
         cout<<element<<endl;
     }
 }
-
