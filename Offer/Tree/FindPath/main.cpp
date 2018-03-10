@@ -42,6 +42,8 @@ void subFindPath(BinaryTreeNode* node, int expectSum, vector<int> &path, int cur
 }
 
 void findPath(BinaryTreeNode* node, int sum) {
+    if(!node)
+        return;
     vector<int> path;
     subFindPath(node,sum,path,0);
 }
