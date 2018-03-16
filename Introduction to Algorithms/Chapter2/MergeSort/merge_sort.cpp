@@ -1,60 +1,40 @@
 #include <iostream>
-#include <vector>
-#include <cmath>
+
 using namespace::std;
 
-void merge(vector<int> &A,int p,int q,int r){
-    int n1 = q - p + 1;
-    int n2 = r - q;
+const int length = 8;
+int *B =  new int(length);
 
-    vector<int> L;
-    vector<int> R;
-    for(int i=1; i<=n1; i++)
-        L.push_back(A[p+i-1]);
-    for(int j=1; j<=n2; j++)
-        R.push_back(A[q+j]);
-    /* sentinel */
-    L.push_back(-1);
-    R.push_back(-1);
-
-    int i = 0;
-    int j = 0;
-    int k=p;
-    for( ; k<=r; k++){
-        if( L[i] <= R[j]){
-            if(L[i] == -1){
-                A[k] = R[j];
-                j++;
-            }else{
-                A[k] = L[i];
-                i++;
-            }
-        }else {
-            if(R[j] == -1){
-                A[k] = L[i];
-                i++;
-            }else {
-                A[k] = R[j];
-                j++;
-            }
-        }
+void merge(int* A,int low,int mid,int high){
+    // 将A中元素复制到B中
+    for(int i = low; i <= high; i++) {
+        B[i] = A[i];
     }
+    int i = low, j = mid + 1;
+    int k = i;
+    for(; i <= mid && j <= high; k++) {
+        if(B[i] < B[j])
+            A[k] = B[i++];
+        else
+            A[k] = B[j++];
+    }
+    while(i <= mid) A[k++] = B[i++];
+    while(j <= high) A[k++] = B[j++];
 }
 
-void merge_sort(vector<int> &A,int p,int r){
-    if(p<r){
-        int q = floor((p+r)/2);
-        merge_sort(A,p,q);
-        merge_sort(A,q+1,r);
-        merge(A,p,q,r);
+void merge_sort(int A[],int low,int high){
+    if(low<high){
+        int mid = (low+high)/2;
+        merge_sort(A,low,mid);
+        merge_sort(A,mid + 1,high);
+        merge(A,low,mid,high);
     }
 }
 
 int main(){
-    vector<int> instance = {2,4,5,7,1,2,3,6};
-    merge_sort(instance,0,instance.size()-1);
-    for(auto num: instance){
-        cout<<num<<" ";
-    }
+    int instance[] = {2,4,5,7,1,2,3,6};
+    merge_sort(instance,0,7);
+    for(int i = 0;i < length; i++)
+        cout<<instance[i]<<" ";
     cout<<endl;
 }

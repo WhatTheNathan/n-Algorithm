@@ -5,17 +5,18 @@ using namespace::std;
 void bubbleSort(int* number, int length) {
     if(!number)
         return;
+    bool flag = false;
     for(int i = 0; i < length; i++) {
         for(int j = 0; j < length - i -1; j++) {
             if(number[j] > number[j + 1]) {
                 int temp = number[j];
                 number[j] = number[j + 1];
                 number[j + 1] = temp;
+                flag = true;
             }
         }
-        for(int i = 0; i < length; i++)
-            cout<<number[i]<<" ";
-        cout<<endl;
+        if(!flag)
+            return;
     }
 }
 

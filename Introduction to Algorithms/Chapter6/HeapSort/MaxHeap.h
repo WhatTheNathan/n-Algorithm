@@ -138,7 +138,7 @@ namespace nathan {
     void MaxHeap<T>::heapSort() {
         // 先构建最大堆
         buildMaxHeap();
-        for(int i = _size; i >= 2; i--) {
+        for(int i = _size; i >= 1; i--) {
             T temp = _elements[1];
             _elements[1] = _elements[i];
             _elements[i] = temp;
