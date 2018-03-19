@@ -11,10 +11,9 @@ void insert_sort(int* number, int length){
             // insert number[j] into the sorted sequence number[0..j-1]
             int i = j - 1;
             while(i >= 0 && number[i] > key){
-                number[i+1] = number[i];
+                swap(number[i],number[i+1]);
                 i--;
             }
-            number[i+1] = key;
         }
     }
 }
