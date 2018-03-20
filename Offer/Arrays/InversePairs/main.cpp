@@ -30,7 +30,7 @@ int inversePairs(int* nums ,int low, int high) {
 }
 
 int main(){
-    const int length = 4;
-    int nums[] = {7,5,6,4};
-    cout<<inversePairs(nums,0,3)<<endl;
+    const int length = 5;
+    int nums[length] = {4,7,3,2,2};
+    cout<<inversePairs(nums,0,length - 1)<<endl;
 }
