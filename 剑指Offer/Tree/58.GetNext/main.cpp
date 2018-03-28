@@ -17,7 +17,7 @@ public:
     /*
      * 1.有右孩子，则不断找右孩子的左孩子
      * 2.无右孩子，且自己是父结点的左孩子，则为父结点
-     * 3.无右孩子，且自己是父结点的右孩子，则返回null
+     * 3.无右孩子，且自己是父结点的右孩子，则向上寻找一个是父亲的左子节点的结点
      */
     TreeNode* getNext(TreeNode* node) {
         if(!node)
@@ -28,9 +28,14 @@ public:
                 temp = temp->left;
             }
             return temp;
-        }else if(node == node->parent->left) {
-            return node->parent;
         }else {
+            TreeNode* temp = node;
+            while(temp->parent) {
+                if(temp->parent->left == temp) {
+                    return temp->parent;
+                }
+                temp = temp->parent;
+            }
             return nullptr;
         }
     }
@@ -68,13 +73,13 @@ int main(){
     node_8->parent = node_4;
 
     Solution solution = Solution();
-    cout<<solution.getNext(root)->val<<endl;
-    cout<<solution.getNext(node_1)->val<<endl;
-    cout<<solution.getNext(node_2)->val<<endl;
+//    cout<<solution.getNext(root)->val<<endl;
+//    cout<<solution.getNext(node_1)->val<<endl;
+//    cout<<solution.getNext(node_2)->val<<endl;
+//    cout<<solution.getNext(node_3)->val<<endl;
+//    cout<<solution.getNext(node_4)->val<<endl;
+//    cout<<solution.getNext(node_5)->val<<endl;
+//    cout<<solution.getNext(node_6)->val<<endl;
+//    cout<<solution.getNext(node_7)->val<<endl;
     cout<<solution.getNext(node_3)->val<<endl;
-    cout<<solution.getNext(node_4)->val<<endl;
-    cout<<solution.getNext(node_5)->val<<endl;
-    cout<<solution.getNext(node_6)->val<<endl;
-    cout<<solution.getNext(node_7)->val<<endl;
-    cout<<solution.getNext(node_8)->val<<endl;
 }
