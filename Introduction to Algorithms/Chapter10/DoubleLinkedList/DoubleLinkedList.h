@@ -8,7 +8,7 @@ namespace Nathan {
     template <class T>
     class DoubleLinkedList {
     public:
-        DoubleLinkedList(ListNode<T> *first = nullptr);
+        DoubleLinkedList(ListNode<T>* first = nullptr);
 
         bool isEmpty() const;
         int getSize() const;
@@ -22,10 +22,12 @@ namespace Nathan {
         bool removeHead();
         bool removeTail();
 
+        void invert();
+
         void print();
     private:
-        ListNode<T> *_head;
-        ListNode<T> *_tail;
+        ListNode<T>* _head;
+        ListNode<T>* _tail;
         int _size = 0;
     };
 
@@ -105,6 +107,24 @@ namespace Nathan {
         _tail->_link = nullptr;
         delete temp;
         return true;
+    }
+
+    template <class T>
+    void DoubleLinkedList<T>::invert() {
+        if(!_head)
+            return;
+        _tail = _head;
+        ListNode<T>* currentNode = _head;
+        ListNode<T>* temp = currentNode->_link;
+        currentNode->_link = currentNode->_pre;
+        currentNode->_pre = temp;
+        while(currentNode->_pre) {
+            currentNode = currentNode->_pre;
+            ListNode<T>* temp = currentNode->_link;
+            currentNode->_link = currentNode->_pre;
+            currentNode->_pre = temp;
+        }
+        _head = currentNode;
     }
 
     template <class T>

@@ -12,8 +12,9 @@ int main(){
     list.insertTail(10);
 
 
+    list.invert();
     list.print();
 //    list.removeHead();
 //    list.removeTail();
-    list.print();
+//    list.print();
 }
