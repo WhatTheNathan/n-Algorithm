@@ -11,15 +11,13 @@
 using namespace::std;
 
 int minInOrder(vector<int> A, int left,int right) {
-    int min = 0;
-    int index;
+    int min = INT_MAX;
     for(int i = left; i <= right; i++){
         if(A[i] <= min){
             min = A[i];
-            index = i;
         }
     }
-    return index;
+    return min;
 }
 
 int findMinInSpinArray(vector<int> A, int left,int right) {
@@ -29,13 +27,15 @@ int findMinInSpinArray(vector<int> A, int left,int right) {
         return min(A[left],A[right]);
 
     int middle = (left + right) / 2;
-    if( A[middle] > A[left] || A[middle] < A[right] )
+    if( A[middle] > A[left] )
         return findMinInSpinArray(A,middle,right);
+    else if( A[middle < A[right]])
+        return findMinInSpinArray(A,left,middle);
     else if(A[left] == A[right] && A[left] == A[middle])
         return minInOrder(A,left,right);
 }
 
 int main(){
-    vector<int> A = {1,0,1,1,1};
+    vector<int> A = {5,1,2,3,4};
     cout<<findMinInSpinArray(A,0,4);
 }
